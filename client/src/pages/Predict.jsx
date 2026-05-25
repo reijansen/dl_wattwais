@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+
 import { CheckCircle, WifiOff, Loader } from 'lucide-react';
 import { checkBackendHealth, predictDemand } from '../services/api';
 import PredictionResults from '../components/PredictionResults';
@@ -18,13 +19,13 @@ export default function Predict() {
     day_of_week: 3,
     month: 5,
     is_weekend: 0,
-    electricity_rate_php_kwh: 7.50,
-    temperature: 25.0,
-    last_hour_kwh: 2.5,
-    same_hour_yesterday_kwh: 2.3,
-    same_hour_last_week_kwh: 2.4,
-    avg_24h_kwh: 2.2,
-    avg_7d_kwh: 2.1,
+    electricity_rate_php_kwh: 12.50,
+    temperature: 31.0,
+    last_hour_kwh: 1.25,
+    same_hour_yesterday_kwh: 1.10,
+    same_hour_last_week_kwh: 1.30,
+    avg_24h_kwh: 1.20,
+    avg_7d_kwh: 1.15,
   });
 
   // Validation errors
@@ -431,19 +432,30 @@ export default function Predict() {
         onUseWeather={handleUseWeather}
         weatherLoading={weatherFillStatus.isLoading}
         weatherError={weatherFillStatus.error}
+dationErrors={validationErrors}
+        submitError={submitError}
+        isLoading={isLoading}
+        backendStatus={backendStatus}
+        onSubmit={handleSubmit}
+        onReset={handleReset}
+        onInputChange={handleInputChange}
+        onUseCurrentDateTime={handleUseCurrentDateTime}
+        autoFillLoading={autoFillStatus.isLoading}
+        autoFillError={autoFillStatus.error}
       />
 
       {/* ======================== */}
       {/* PREDICTION RESULTS */}
       {/* ======================== */}
-      <div ref={resultsRef} className="pt-2 scroll-mt-6">
-        <div className="divider">Results Dashboard</div>
-        <PredictionResults
-          prediction={predictionResult}
-          metadata={predictionMetadata}
-          isLoading={isLoading}
-        />
-      </div>
+      {predictionResult && (
+        <div ref={resultsRef} className="pt-8 scroll-mt-6">
+          <PredictionResults
+            prediction={predictionResult}
+            metadata={predictionMetadata}
+            isLoading={isLoading}
+          />
+        </div>
+      )}
     </div>
   );
 }

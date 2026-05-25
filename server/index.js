@@ -168,7 +168,8 @@ function mapInputToModel(frontendInput) {
  * @returns {Object} - Estimates object
  */
 function calculateEstimates(hourlyKwh, electricityRate) {
-  const dailyKwh = hourlyKwh * 24;
+  // Assuming 14 active hours per day (8 hours sleeping + 2 hours away)
+  const dailyKwh = hourlyKwh * 14;
   const monthlyKwh = dailyKwh * 30;
   const monthlyBill = monthlyKwh * electricityRate;
 

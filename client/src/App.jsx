@@ -6,14 +6,6 @@ import Results from './pages/Results';
 import About from './pages/About';
 
 function App() {
-  // Set dark theme by default
-  if (!localStorage.getItem('theme')) {
-    localStorage.setItem('theme', 'dark');
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'));
-  }
-
   return (
     <Router
       future={{
@@ -34,3 +26,4 @@ function App() {
 }
 
 export default App;
+
