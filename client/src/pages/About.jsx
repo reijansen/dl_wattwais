@@ -1,203 +1,100 @@
-import { Code2, Brain, Server, Database } from 'lucide-react';
+import { Code2, Brain, Server, Database, CheckCircle2 } from 'lucide-react';
+import DaisyBadge from '../components/DaisyBadge';
+import DaisyCard from '../components/DaisyCard';
 
 export default function About() {
   return (
-    <div className="max-w-4xl mx-auto space-y-12">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">
+    <div className="max-w-5xl mx-auto space-y-12">
+      <div className="text-center">
+        <h1 className="text-5xl font-bold mb-3">
           About <span className="text-gradient">WattwAIs</span>
         </h1>
         <p className="text-base-content/70 text-lg">
-          AI-powered electricity demand prediction made simple
+          AI-powered electricity demand prediction with a clean, beginner-friendly workflow.
         </p>
       </div>
 
-      {/* Mission */}
-      <div className="card bg-base-200 shadow-lg">
-        <div className="card-body">
-          <h2 className="card-title text-2xl mb-4">Our Mission</h2>
-          <p className="text-base-content/80 leading-relaxed">
-            WattwAIs aims to empower households and businesses with accurate, real-time 
-            electricity demand predictions. By leveraging machine learning and historical 
-            consumption patterns, we help you understand your energy usage, plan your 
-            budget, and make informed decisions about electricity consumption.
-          </p>
-        </div>
-      </div>
+      <DaisyCard variant="base-200" title="Our Mission" className="shadow-lg">
+        <p className="text-base-content/80 leading-relaxed">
+          WattwAIs helps you estimate hourly electricity demand and understand how it could translate into daily/monthly usage and
+          bills. Under the hood, it uses a deep learning model (Keras/TensorFlow) trained on historical usage patterns. The goal is
+          clarity: simple inputs, fast predictions, and a UI that makes results easy to interpret.
+        </p>
+      </DaisyCard>
 
-      {/* Tech Stack */}
       <div>
         <h2 className="text-3xl font-bold text-center mb-8">Technology Stack</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Frontend */}
-          <div className="card bg-base-200 shadow">
-            <div className="card-body items-center text-center">
-              <Code2 className="w-12 h-12 text-primary mb-4" />
-              <h3 className="card-title text-lg">Frontend</h3>
-              <ul className="text-sm text-base-content/70 space-y-1">
-                <li>React</li>
-                <li>Vite</li>
-                <li>Tailwind CSS</li>
-                <li>DaisyUI</li>
-              </ul>
+          <DaisyCard variant="base-200" className="shadow">
+            <div className="flex flex-col items-center text-center gap-3">
+              <Code2 className="w-10 h-10 text-primary" />
+              <div className="text-lg font-bold">Frontend</div>
+              <div className="flex flex-wrap justify-center gap-2">
+                <DaisyBadge variant="outline">React</DaisyBadge>
+                <DaisyBadge variant="outline">Vite</DaisyBadge>
+                <DaisyBadge variant="outline">Tailwind</DaisyBadge>
+                <DaisyBadge variant="outline">DaisyUI</DaisyBadge>
+              </div>
             </div>
-          </div>
+          </DaisyCard>
 
-          {/* Backend */}
-          <div className="card bg-base-200 shadow">
-            <div className="card-body items-center text-center">
-              <Server className="w-12 h-12 text-secondary mb-4" />
-              <h3 className="card-title text-lg">Backend</h3>
-              <ul className="text-sm text-base-content/70 space-y-1">
-                <li>Node.js</li>
-                <li>Express.js</li>
-                <li>Axios</li>
-                <li>CORS Enabled</li>
-              </ul>
+          <DaisyCard variant="base-200" className="shadow">
+            <div className="flex flex-col items-center text-center gap-3">
+              <Server className="w-10 h-10 text-secondary" />
+              <div className="text-lg font-bold">Backend</div>
+              <div className="flex flex-wrap justify-center gap-2">
+                <DaisyBadge variant="outline">Node</DaisyBadge>
+                <DaisyBadge variant="outline">Express</DaisyBadge>
+                <DaisyBadge variant="outline">CORS</DaisyBadge>
+              </div>
             </div>
-          </div>
+          </DaisyCard>
 
-          {/* ML Engine */}
-          <div className="card bg-base-200 shadow">
-            <div className="card-body items-center text-center">
-              <Brain className="w-12 h-12 text-accent mb-4" />
-              <h3 className="card-title text-lg">ML Engine</h3>
-              <ul className="text-sm text-base-content/70 space-y-1">
-                <li>Python</li>
-                <li>TensorFlow</li>
-                <li>Keras</li>
-                <li>scikit-learn</li>
-              </ul>
+          <DaisyCard variant="base-200" className="shadow">
+            <div className="flex flex-col items-center text-center gap-3">
+              <Brain className="w-10 h-10 text-accent" />
+              <div className="text-lg font-bold">ML Engine</div>
+              <div className="flex flex-wrap justify-center gap-2">
+                <DaisyBadge variant="outline">Python</DaisyBadge>
+                <DaisyBadge variant="outline">TensorFlow</DaisyBadge>
+                <DaisyBadge variant="outline">Keras</DaisyBadge>
+                <DaisyBadge variant="outline">scikit-learn</DaisyBadge>
+              </div>
             </div>
-          </div>
+          </DaisyCard>
 
-          {/* Data */}
-          <div className="card bg-base-200 shadow">
-            <div className="card-body items-center text-center">
-              <Database className="w-12 h-12 text-warning mb-4" />
-              <h3 className="card-title text-lg">Data Processing</h3>
-              <ul className="text-sm text-base-content/70 space-y-1">
-                <li>Pandas</li>
-                <li>NumPy</li>
-                <li>JSON API</li>
-                <li>Feature Mapping</li>
-              </ul>
+          <DaisyCard variant="base-200" className="shadow">
+            <div className="flex flex-col items-center text-center gap-3">
+              <Database className="w-10 h-10 text-warning" />
+              <div className="text-lg font-bold">Data</div>
+              <div className="flex flex-wrap justify-center gap-2">
+                <DaisyBadge variant="outline">Pandas</DaisyBadge>
+                <DaisyBadge variant="outline">NumPy</DaisyBadge>
+                <DaisyBadge variant="outline">JSON API</DaisyBadge>
+              </div>
             </div>
-          </div>
+          </DaisyCard>
         </div>
       </div>
 
-      {/* Features */}
-      <div className="card bg-gradient-to-br from-base-200 to-base-300 shadow-lg">
-        <div className="card-body">
-          <h2 className="card-title text-2xl mb-6">Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <h3 className="font-semibold text-primary">✓ Accurate Predictions</h3>
-              <p className="text-sm text-base-content/70">
-                94% accuracy using deep learning models trained on historical data
-              </p>
+      <DaisyCard variant="base-200" title="Key Features" className="shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+          {[
+            { title: 'Deep learning predictions', text: 'Keras/TensorFlow model trained on historical usage patterns.' },
+            { title: 'Fast results', text: 'Backend inference returns estimates quickly for interactive UX.' },
+            { title: 'Bill estimation', text: 'Monthly bill is calculated from your input rate.' },
+            { title: 'Beginner-friendly', text: 'No database, no auth, no complex setup.' },
+          ].map((f) => (
+            <div key={f.title} className="flex gap-3">
+              <CheckCircle2 className="w-5 h-5 text-primary mt-0.5" />
+              <div>
+                <div className="font-semibold">{f.title}</div>
+                <div className="text-sm text-base-content/70">{f.text}</div>
+              </div>
             </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-secondary">✓ Real-time Processing</h3>
-              <p className="text-sm text-base-content/70">
-                Get predictions in under 500ms with live input validation
-              </p>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-accent">✓ Cost Estimation</h3>
-              <p className="text-sm text-base-content/70">
-                Automatic bill calculation in Philippine Pesos (₱)
-              </p>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-semibold text-warning">✓ Easy Integration</h3>
-              <p className="text-sm text-base-content/70">
-                Simple REST API with comprehensive error handling
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
-
-      {/* Data Privacy */}
-      <div className="card bg-base-200 shadow-lg">
-        <div className="card-body">
-          <h2 className="card-title text-2xl mb-4">Data & Privacy</h2>
-          <div className="space-y-3 text-base-content/80">
-            <p>
-              <strong>No Personal Data Storage:</strong> WattwAIs processes your prediction 
-              requests in real-time without storing any personal information.
-            </p>
-            <p>
-              <strong>Stateless Architecture:</strong> Each prediction is independent and 
-              doesn't require historical data storage on our servers.
-            </p>
-            <p>
-              <strong>Local Processing:</strong> You can run WattwAIs locally for complete 
-              data privacy and control.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Project Phases */}
-      <div>
-        <h2 className="text-3xl font-bold text-center mb-8">Development Phases</h2>
-        <div className="space-y-4">
-          <div className="card bg-base-200 border-l-4 border-l-success">
-            <div className="card-body">
-              <h3 className="card-title">✅ Phase 1: Backend Setup</h3>
-              <p className="text-sm text-base-content/70">
-                Express.js server with Python ML inference integration
-              </p>
-            </div>
-          </div>
-          <div className="card bg-base-200 border-l-4 border-l-success">
-            <div className="card-body">
-              <h3 className="card-title">✅ Phase 2: Input Validation & Mapping</h3>
-              <p className="text-sm text-base-content/70">
-                Comprehensive input validation and feature mapping to model format
-              </p>
-            </div>
-          </div>
-          <div className="card bg-base-200 border-l-4 border-l-success">
-            <div className="card-body">
-              <h3 className="card-title">✅ Phase 3: Frontend Setup (Current)</h3>
-              <p className="text-sm text-base-content/70">
-                React with Vite, Tailwind CSS, DaisyUI, and routing configuration
-              </p>
-            </div>
-          </div>
-          <div className="card bg-base-200 border-l-4 border-l-warning">
-            <div className="card-body">
-              <h3 className="card-title">⏳ Phase 4: API Integration</h3>
-              <p className="text-sm text-base-content/70">
-                Connect frontend forms to backend /predict endpoint
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Contact / Support */}
-      <div className="card bg-gradient-to-r from-primary to-secondary text-primary-content shadow-lg">
-        <div className="card-body items-center text-center">
-          <h2 className="card-title text-2xl">Want to Learn More?</h2>
-          <p className="mb-6">
-            Check out our documentation and API reference for detailed information
-          </p>
-          <div className="card-actions gap-4">
-            <a href="/predict" className="btn btn-lg btn-outline">
-              Try Now
-            </a>
-            <a href="/" className="btn btn-lg btn-outline">
-              Back Home
-            </a>
-          </div>
-        </div>
-      </div>
+      </DaisyCard>
     </div>
   );
 }

@@ -29,7 +29,7 @@ html {
 /* Custom utility classes */
 @layer components {
   .btn-primary-gradient {
-    @apply bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white font-semibold transition-all duration-200;
+    @apply btn btn-primary font-semibold;
   }
 
   .card-glass {
@@ -37,7 +37,7 @@ html {
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent;
+    @apply text-primary;
   }
 }
 

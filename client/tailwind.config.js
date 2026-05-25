@@ -3,6 +3,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx}",
+    "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -14,6 +15,7 @@ export default {
   },
   plugins: [
     require('daisyui'),
+    require('@tailwindcss/forms'),
   ],
   daisyui: {
     themes: [
