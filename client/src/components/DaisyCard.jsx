@@ -3,6 +3,7 @@ export default function DaisyCard({
   title,
   icon,
   subtitle,
+  headerRight,
   className = '',
   bodyClassName = '',
   children,
@@ -18,10 +19,11 @@ export default function DaisyCard({
         {(title || subtitle) && (
           <div className="flex items-start gap-3">
             {icon ? <div className="mt-1">{icon}</div> : null}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               {title ? <h2 className="card-title text-2xl">{title}</h2> : null}
               {subtitle ? <p className="text-sm text-base-content/70 mt-1">{subtitle}</p> : null}
             </div>
+            {headerRight ? <div className="flex-shrink-0">{headerRight}</div> : null}
           </div>
         )}
 

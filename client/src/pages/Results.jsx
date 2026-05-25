@@ -17,10 +17,10 @@ export default function Results() {
           <AlertCircle className="w-16 h-16 text-warning mb-4 opacity-80" />
           <h2 className="text-2xl font-bold mb-2">No saved results yet</h2>
           <p className="text-base-content/70 mb-6 max-w-md">
-            Results are shown right after you run a prediction. To keep WattwAIs simple and beginner-friendly, we don’t
-            store predictions yet (no database/auth).
+            Results are shown right after you run a prediction. To keep WattwAIs simple and beginner-friendly, we don't store
+            predictions yet (no database/auth).
           </p>
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link to="/predict" className="btn btn-primary">
               Go to Predict
             </Link>

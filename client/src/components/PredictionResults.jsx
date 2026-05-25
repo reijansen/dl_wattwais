@@ -175,7 +175,11 @@ export default function PredictionResults({ prediction, metadata, isLoading = fa
         </Card>
       </div>
 
-      <DaisyCollapse title="View raw prediction values">
+      <div className="pt-1">
+        <div className="divider">Advanced</div>
+      </div>
+
+      <DaisyCollapse title="View raw prediction values (JSON)" className="shadow-sm" defaultOpen={false}>
         <pre className="bg-base-200 p-4 rounded-lg overflow-x-auto text-xs font-mono text-base-content/80">
           {JSON.stringify(prediction, null, 2)}
         </pre>

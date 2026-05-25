@@ -35,8 +35,56 @@ export default function Predict() {
   const [predictionResult, setPredictionResult] = useState(null);
   const [predictionMetadata, setPredictionMetadata] = useState(null);
   const [submitError, setSubmitError] = useState(null);
+  const [autoFillStatus, setAutoFillStatus] = useState({ isLoading: false, error: null });
 
   const resultsRef = useRef(null);
+
+  const recomputeWeekend = (dayOfWeek) => (dayOfWeek === 0 || dayOfWeek === 6 ? 1 : 0);
+
+  async function fetchApiDateTime() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3500);
+    try {
+      const res = await fetch('https://worldtimeapi.org/api/ip', { signal: controller.signal });
+      if (!res.ok) throw new Error('time_api_failed');
+      const data = await res.json();
+      if (!data?.datetime) throw new Error('time_api_invalid');
+      return new Date(data.datetime);
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  async function getLocationCoords() {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) reject(new Error('geolocation_unsupported'));
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+        (err) => reject(err),
+        { enableHighAccuracy: false, timeout: 6000, maximumAge: 5 * 60 * 1000 }
+      );
+    });
+  }
+
+  async function fetchOutdoorTemperatureC({ lat, lon }) {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(
+      lat
+    )}&longitude=${encodeURIComponent(lon)}&current=temperature_2m`;
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4500);
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      if (!res.ok) throw new Error('weather_api_failed');
+      const data = await res.json();
+      const temp = data?.current?.temperature_2m;
+      const tempNum = Number(temp);
+      if (!Number.isFinite(tempNum)) throw new Error('weather_api_invalid');
+      return tempNum;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
 
   // ============================================================================
   // INITIALIZATION & AUTO-FILL
@@ -53,14 +101,14 @@ export default function Predict() {
 
     checkConnection();
 
-    // Auto-fill current date/time
+    // Auto-fill current date/time (initial)
     const now = new Date();
     const hour = now.getHours();
     const day = now.getDay(); // 0-6 (Sunday-Saturday)
     const month = now.getMonth() + 1; // 1-12
-    const isWeekend = day === 0 || day === 6 ? 1 : 0;
+    const isWeekend = recomputeWeekend(day);
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       hour,
       day_of_week: day,
@@ -131,12 +179,20 @@ export default function Predict() {
    */
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
-    const parsedValue = type === 'number' ? parseFloat(value) : value;
+    const isNumericSelect = name === 'hour' || name === 'day_of_week' || name === 'month';
+    const parsedValue = type === 'number' || isNumericSelect ? parseFloat(value) : value;
 
-    setFormData(prev => ({
-      ...prev,
-      [name]: isNaN(parsedValue) ? '' : parsedValue,
-    }));
+    setFormData((prev) => {
+      const nextValue = isNaN(parsedValue) ? '' : parsedValue;
+      const next = { ...prev, [name]: nextValue };
+
+      if (name === 'day_of_week') {
+        const day = Number(nextValue);
+        next.is_weekend = recomputeWeekend(day);
+      }
+
+      return next;
+    });
 
     // Clear error for this field when user starts typing
     if (validationErrors[name]) {
@@ -195,11 +251,53 @@ export default function Predict() {
     resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [predictionResult]);
 
+  const handleUseCurrentDateTime = async () => {
+    setAutoFillStatus({ isLoading: true, error: null });
+    try {
+      let now;
+      try {
+        now = await fetchApiDateTime();
+      } catch {
+        now = new Date();
+      }
+
+      const hour = now.getHours();
+      const day = now.getDay();
+      const month = now.getMonth() + 1;
+      const isWeekend = recomputeWeekend(day);
+
+      let temperature;
+      try {
+        const coords = await getLocationCoords();
+        temperature = await fetchOutdoorTemperatureC(coords);
+      } catch {
+        temperature = null;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        hour,
+        day_of_week: day,
+        month,
+        is_weekend: isWeekend,
+        ...(temperature === null ? {} : { temperature }),
+      }));
+    } catch (e) {
+      setAutoFillStatus({
+        isLoading: false,
+        error: 'Could not auto-fill from APIs. You can still select the values manually.',
+      });
+      return;
+    }
+
+    setAutoFillStatus({ isLoading: false, error: null });
+  };
+
   /**
    * Handle form reset
    */
   const handleReset = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       electricity_rate_php_kwh: 7.50,
       temperature: 25.0,
@@ -268,6 +366,9 @@ export default function Predict() {
         onSubmit={handleSubmit}
         onReset={handleReset}
         onInputChange={handleInputChange}
+        onUseCurrentDateTime={handleUseCurrentDateTime}
+        autoFillLoading={autoFillStatus.isLoading}
+        autoFillError={autoFillStatus.error}
       />
 
       {/* ======================== */}
