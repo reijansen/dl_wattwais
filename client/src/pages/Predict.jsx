@@ -36,6 +36,8 @@ export default function Predict() {
   const [predictionMetadata, setPredictionMetadata] = useState(null);
   const [submitError, setSubmitError] = useState(null);
   const [autoFillStatus, setAutoFillStatus] = useState({ isLoading: false, error: null });
+  const [didAutoTemp, setDidAutoTemp] = useState(false);
+  const [weatherFillStatus, setWeatherFillStatus] = useState({ isLoading: false, error: null });
 
   const resultsRef = useRef(null);
 
@@ -64,6 +66,22 @@ export default function Predict() {
         { enableHighAccuracy: false, timeout: 6000, maximumAge: 5 * 60 * 1000 }
       );
     });
+  }
+
+  async function fetchIpCoords() {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3500);
+    try {
+      const res = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+      if (!res.ok) throw new Error('ip_api_failed');
+      const data = await res.json();
+      const lat = Number(data?.latitude);
+      const lon = Number(data?.longitude);
+      if (!Number.isFinite(lat) || !Number.isFinite(lon)) throw new Error('ip_api_invalid');
+      return { lat, lon };
+    } finally {
+      clearTimeout(timeout);
+    }
   }
 
   async function fetchOutdoorTemperatureC({ lat, lon }) {
@@ -115,6 +133,18 @@ export default function Predict() {
       month,
       is_weekend: isWeekend,
     }));
+
+    // Auto-fill outdoor temperature using IP-based location (no permission prompt)
+    (async () => {
+      try {
+        const coords = await fetchIpCoords();
+        const temperature = await fetchOutdoorTemperatureC(coords);
+        setFormData((prev) => (prev.temperature === 25.0 ? { ...prev, temperature } : prev));
+        setDidAutoTemp(true);
+      } catch {
+        // silent fallback (user can still enter temperature manually)
+      }
+    })();
   }, []);
 
   // ============================================================================
@@ -271,7 +301,12 @@ export default function Predict() {
         const coords = await getLocationCoords();
         temperature = await fetchOutdoorTemperatureC(coords);
       } catch {
-        temperature = null;
+        try {
+          const coords = await fetchIpCoords();
+          temperature = await fetchOutdoorTemperatureC(coords);
+        } catch {
+          temperature = null;
+        }
       }
 
       setFormData((prev) => ({
@@ -282,6 +317,7 @@ export default function Predict() {
         is_weekend: isWeekend,
         ...(temperature === null ? {} : { temperature }),
       }));
+      if (temperature !== null) setDidAutoTemp(true);
     } catch (e) {
       setAutoFillStatus({
         isLoading: false,
@@ -291,6 +327,29 @@ export default function Predict() {
     }
 
     setAutoFillStatus({ isLoading: false, error: null });
+  };
+
+  const handleUseWeather = async () => {
+    setWeatherFillStatus({ isLoading: true, error: null });
+    try {
+      let temperature;
+      try {
+        const coords = await getLocationCoords();
+        temperature = await fetchOutdoorTemperatureC(coords);
+      } catch {
+        const coords = await fetchIpCoords();
+        temperature = await fetchOutdoorTemperatureC(coords);
+      }
+
+      setFormData((prev) => ({ ...prev, temperature }));
+      setDidAutoTemp(true);
+      setWeatherFillStatus({ isLoading: false, error: null });
+    } catch {
+      setWeatherFillStatus({
+        isLoading: false,
+        error: 'Could not fetch local weather. You can still type an approximate temperature.',
+      });
+    }
   };
 
   /**
@@ -369,6 +428,9 @@ export default function Predict() {
         onUseCurrentDateTime={handleUseCurrentDateTime}
         autoFillLoading={autoFillStatus.isLoading}
         autoFillError={autoFillStatus.error}
+        onUseWeather={handleUseWeather}
+        weatherLoading={weatherFillStatus.isLoading}
+        weatherError={weatherFillStatus.error}
       />
 
       {/* ======================== */}

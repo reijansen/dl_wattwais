@@ -46,6 +46,9 @@ export default function PredictionForm({
   onUseCurrentDateTime,
   autoFillLoading = false,
   autoFillError = null,
+  onUseWeather,
+  weatherLoading = false,
+  weatherError = null,
 }) {
   return (
     <form onSubmit={onSubmit} className="space-y-6">
@@ -71,6 +74,15 @@ export default function PredictionForm({
           icon={<AlertCircle className="w-6 h-6" />}
           title="Auto-fill unavailable"
           message={autoFillError}
+        />
+      ) : null}
+
+      {weatherError ? (
+        <DaisyAlert
+          type="warning"
+          icon={<AlertCircle className="w-6 h-6" />}
+          title="Weather auto-fill unavailable"
+          message={weatherError}
         />
       ) : null}
 
@@ -218,6 +230,18 @@ export default function PredictionForm({
                 className={`input input-bordered join-item w-full ${validationErrors.temperature ? 'input-error' : ''}`}
                 placeholder="31"
               />
+            </div>
+            <div className="mt-2 flex items-center justify-between gap-2 flex-wrap">
+              <span className="text-xs text-base-content/60">Tip: Use local weather for a more realistic demo.</span>
+              <button
+                type="button"
+                className="btn btn-xs btn-outline gap-2"
+                onClick={onUseWeather}
+                disabled={!onUseWeather || weatherLoading}
+              >
+                {weatherLoading ? <Loader className="w-3.5 h-3.5 animate-spin" /> : <Thermometer className="w-3.5 h-3.5" />}
+                {weatherLoading ? 'Fetching…' : 'Use my local weather'}
+              </button>
             </div>
             {validationErrors.temperature && (
               <label className="label">
