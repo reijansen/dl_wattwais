@@ -1,0 +1,246 @@
+[
+  {
+    "paths": [
+      "weights.0.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.0",
+        "shape": [
+          399,
+          128
+        ],
+        "dtype": "float32",
+        "size": 204288
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.1.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.1",
+        "shape": [
+          128
+        ],
+        "dtype": "float32",
+        "size": 512
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.2.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.2",
+        "shape": [
+          128
+        ],
+        "dtype": "float32",
+        "size": 512
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.3.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.3",
+        "shape": [
+          128
+        ],
+        "dtype": "float32",
+        "size": 512
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.4.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.4",
+        "shape": [
+          128
+        ],
+        "dtype": "float32",
+        "size": 512
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.5.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.5",
+        "shape": [
+          128
+        ],
+        "dtype": "float32",
+        "size": 512
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.6.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.6",
+        "shape": [
+          128,
+          64
+        ],
+        "dtype": "float32",
+        "size": 32768
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.7.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.7",
+        "shape": [
+          64
+        ],
+        "dtype": "float32",
+        "size": 256
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.8.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.8",
+        "shape": [
+          64
+        ],
+        "dtype": "float32",
+        "size": 256
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.9.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.9",
+        "shape": [
+          64
+        ],
+        "dtype": "float32",
+        "size": 256
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.10.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.10",
+        "shape": [
+          64
+        ],
+        "dtype": "float32",
+        "size": 256
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.11.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.11",
+        "shape": [
+          64
+        ],
+        "dtype": "float32",
+        "size": 256
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.12.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.12",
+        "shape": [
+          64,
+          32
+        ],
+        "dtype": "float32",
+        "size": 8192
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.13.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.13",
+        "shape": [
+          32
+        ],
+        "dtype": "float32",
+        "size": 128
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.14.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.14",
+        "shape": [
+          32,
+          1
+        ],
+        "dtype": "float32",
+        "size": 128
+      }
+    ]
+  },
+  {
+    "paths": [
+      "weights.15.bin"
+    ],
+    "weights": [
+      {
+        "name": "weights.15",
+        "shape": [
+          1
+        ],
+        "dtype": "float32",
+        "size": 4
+      }
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "hour": 0,
+  "day_of_week": 0,
+  "month": 0,
+  "day": 0,
+  "is_weekend": 0,
+  "Experiment_price_NOK_kWh": 0,
+  "Temperature": 0,
+  "Temperature24": 0,
+  "Temperature48": 0,
+  "Temperature72": 0,
+  "lag_1": 0,
+  "lag_24": 0,
+  "lag_168": 0,
+  "rolling_24": 0,
+  "rolling_168": 0,
+  "ID": "Exp_135",
+  "Region": "Bergen",
+  "Municipality": "Asker",
+  "Participation_Phase": "Phase_1",
+  "Control_Price_Phase2": "Price group",
+  "Group_Phase2": "Ber_1"
+}
