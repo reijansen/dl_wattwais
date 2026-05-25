@@ -19,8 +19,12 @@ The WattwAIs backend predicts hourly household electricity consumption and estim
 ### Prerequisites
 - Node.js 20+ LTS
 - Python 3.8+ with TensorFlow installed
+- scikit-learn + joblib (for loading the fitted preprocessor)
 - Keras model file: `best_wattwais_model.keras`
 - Preprocessing files in `preprocessing/` directory
+
+### Troubleshooting: `STACK_GLOBAL` / preprocessor load failures
+If `/predict` returns a 500 with a pickle/unpickle error (commonly `STACK_GLOBAL requires str`), your local `preprocessing/preprocessor.pkl` is corrupted or was transferred incorrectly. Regenerate it from the training notebook, transfer it as a binary file (zipping is safest), and ensure it can be loaded with `joblib.load(...)`.
 
 ### Installation
 
@@ -31,7 +35,7 @@ The WattwAIs backend predicts hourly household electricity consumption and estim
 
 2. **Install Python dependencies:**
    ```bash
-   pip install tensorflow numpy
+   pip install tensorflow numpy pandas scikit-learn joblib
    ```
 
 3. **Verify files are in place:**
@@ -102,12 +106,12 @@ Content-Type: application/json
 {
   "success": true,
   "prediction": {
-    "hourly_kwh": 2.35,
-    "daily_kwh": 56.40,
-    "monthly_kwh": 1692.00,
-    "monthly_bill_php": 12690.00
+    "predicted_hourly_kwh": 2.35,
+    "estimated_daily_kwh": 56.40,
+    "estimated_monthly_kwh": 1692.00,
+    "estimated_monthly_bill_php": 12690.00
   },
-  "input_received": {
+  "metadata": {
     "hour": 14,
     "day_of_week": 3,
     "month": 5,
@@ -117,11 +121,11 @@ Content-Type: application/json
 }
 ```
 
-**Error response (400/500):**
+**Error response examples (400/500):**
 ```json
 {
-  "error": "Missing required fields",
-  "missing": ["temperature"]
+  "error": "Invalid input",
+  "details": ["Missing required field: temperature"]
 }
 ```
 

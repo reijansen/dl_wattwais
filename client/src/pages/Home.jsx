@@ -73,7 +73,7 @@ export default function Home() {
         </div>
         <div className="stat">
           <div className="stat-title">Avg. Response Time</div>
-          <div className="stat-value text-accent">< 500ms</div>
+          <div className="stat-value text-accent">&lt; 500ms</div>
         </div>
       </div>
 

@@ -235,22 +235,16 @@ app.post("/predict", (req, res) => {
   });
 
   python.on("close", (code) => {
-    if (code !== 0) {
-      console.error("Python error:", error);
-      return res.status(500).json({
-        error: "Prediction failed",
-        details: error || "Unknown error",
-      });
-    }
-
     try {
       // ---- Step 4: Parse prediction result ----
       const prediction = JSON.parse(output);
 
       if (!prediction.success) {
+        if (error) console.error("Python stderr:", error);
         return res.status(500).json({
           error: "Model error",
-          details: prediction.error,
+          details: prediction.error || error || "Unknown error",
+          exit_code: code,
         });
       }
 
@@ -275,10 +269,13 @@ app.post("/predict", (req, res) => {
         },
       });
     } catch (parseError) {
+      if (error) console.error("Python stderr:", error);
+      if (code !== 0) console.error("Python exit code:", code);
       console.error("Parse error:", parseError);
       res.status(500).json({
         error: "Failed to process prediction",
-        details: parseError.message,
+        details: error || parseError.message,
+        exit_code: code,
       });
     }
   });

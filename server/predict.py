@@ -13,6 +13,7 @@ import sys
 import json
 import pickle
 from pathlib import Path
+from pickle import UnpicklingError
 
 try:
     import tensorflow as tf
@@ -49,13 +50,37 @@ def load_model():
 def load_preprocessor():
     """Load the scikit-learn preprocessor"""
     try:
+        # Prefer joblib for sklearn pipelines/transformers (more robust for numpy-heavy objects).
+        try:
+            import joblib  # type: ignore
+        except ImportError:
+            joblib = None
+
+        if joblib is not None:
+            return joblib.load(PREPROCESSOR_PATH)
+
         with open(PREPROCESSOR_PATH, "rb") as f:
-            preprocessor = pickle.load(f)
-        return preprocessor
+            return pickle.load(f)
     except FileNotFoundError:
         raise FileNotFoundError(f"Preprocessor not found at {PREPROCESSOR_PATH}")
+    except (UnpicklingError, AttributeError, EOFError, ImportError, IndexError) as e:
+        # Common failure modes for corrupted/incompatible pickles.
+        raise Exception(
+            "Preprocessor file could not be unpickled. "
+            "It may be corrupted or created with an incompatible environment. "
+            f"Regenerate it from the training notebook and replace {PREPROCESSOR_PATH}. "
+            f"Original error: {str(e)}"
+        )
     except Exception as e:
-        raise Exception(f"Failed to load preprocessor: {str(e)}")
+        # Some corruption cases surface as generic Exceptions with a tell-tale message.
+        msg = str(e)
+        if "STACK_GLOBAL" in msg or "pickle" in msg.lower():
+            raise Exception(
+                "Preprocessor file appears corrupted (pickle error). "
+                f"Regenerate it from the training notebook and replace {PREPROCESSOR_PATH}. "
+                f"Original error: {msg}"
+            )
+        raise Exception(f"Failed to load preprocessor: {msg}")
 
 # ============================================================================
 # PREDICTION
@@ -108,13 +133,17 @@ def predict(model_input):
 
 if __name__ == "__main__":
     try:
-        # Get input from command line argument
+        # Get input from command line argument (or stdin)
         if len(sys.argv) < 2:
-            raise ValueError("No input provided")
-        
+            raise ValueError("No input provided (pass JSON as argv[1] or use '-' to read stdin)")
+
+        raw_input = sys.argv[1]
+        if raw_input == "-":
+            raw_input = sys.stdin.read()
+
         # Parse JSON input
         try:
-            model_input = json.loads(sys.argv[1])
+            model_input = json.loads(raw_input)
         except json.JSONDecodeError as e:
             print(json.dumps({
                 "success": False,
