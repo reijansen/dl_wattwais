@@ -1,15 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Predict from './pages/Predict';
+import Results from './pages/Results';
+import About from './pages/About';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Set dark theme by default
+  if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', 'dark');
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme'));
+  }
 
   return (
-    <>
-      <section id="center">
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/predict" element={<Predict />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
+}
+
+export default App;
         <div className="hero">
           <img src={heroImg} className="base" width="170" height="179" alt="" />
           <img src={reactLogo} className="framework" alt="React logo" />
