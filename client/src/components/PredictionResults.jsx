@@ -315,31 +315,31 @@ export default function PredictionResults({ prediction, metadata, isLoading = fa
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
           <Card className="bg-base-100 border border-base-300 shadow-sm">
             <Text className="text-base-content/70">Hourly</Text>
-            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-nowrap truncate">
+            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-normal break-words">
               {rateOk ? formatPHP(hourlyCost) : '—'}
             </Metric>
           </Card>
           <Card className="bg-base-100 border border-base-300 shadow-sm">
             <Text className="text-base-content/70">Daily</Text>
-            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-nowrap truncate">
+            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-normal break-words">
               {rateOk ? formatPHP(dailyCost) : '—'}
             </Metric>
           </Card>
           <Card className="bg-base-100 border border-base-300 shadow-sm">
             <Text className="text-base-content/70">Weekly</Text>
-            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-nowrap truncate">
+            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-normal break-words">
               {rateOk ? formatPHP(weeklyCost) : '—'}
             </Metric>
           </Card>
           <Card className="bg-base-100 border border-base-300 shadow-sm">
             <Text className="text-base-content/70">Monthly</Text>
-            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-nowrap truncate">
+            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-normal break-words">
               {formatPHP(monthlyBill)}
             </Metric>
           </Card>
           <Card className="bg-base-100 border border-base-300 shadow-sm">
             <Text className="text-base-content/70">Annual</Text>
-            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-nowrap truncate">
+            <Metric className="text-base-content tabular-nums text-2xl sm:text-3xl leading-tight whitespace-normal break-words">
               {formatPHP(annualBill)}
             </Metric>
           </Card>

@@ -7,11 +7,11 @@ export default function TremorKpiCard({ title, value, subtitle, icon, size = 'lg
       <div className="flex items-start justify-between gap-4 min-w-0">
         <div className="min-w-0">
           <Text className="text-base-content/70">{title}</Text>
-          <div className="overflow-hidden">
-            <Metric className={`text-base-content tabular-nums ${metricSizeClass} leading-tight whitespace-nowrap truncate`}>
-              {value}
-            </Metric>
-          </div>
+          <Metric
+            className={`text-base-content tabular-nums ${metricSizeClass} leading-tight whitespace-normal break-words`}
+          >
+            {value}
+          </Metric>
           {subtitle ? <Text className="mt-1 text-base-content/60">{subtitle}</Text> : null}
         </div>
         {icon ? <div className="text-base-content/70 flex-shrink-0">{icon}</div> : null}
